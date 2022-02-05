@@ -7,8 +7,18 @@ Author: Daniel Marques
 #Importando Rescursos.
 from fileinput import close
 import os
-#import numpy as np
 import random
+import mysql.connector
+from numpy import true_divide
+
+#Conexão com Banco de Dados WorldCup
+worldcup_db = mysql.connector.connect(
+    host='localhost',
+    user='root',
+    password = 'aaZe!9ae.hVsMGD'
+)
+
+print(worldcup_db)
 
 def menu():
     """
@@ -28,18 +38,19 @@ def menu():
     print('7. Total de Expectadores')
     print('8. Total de Expectadores por Time')
     print('9. Limpar Tela')
-    print('10. Guardar Ficheiro')
+    print('10. Guardar dados do Ficheiro')
     print('11. Carregar dados do Ficheiro')
     print('\033[1;36;40m12. Sobre Nós!\033[m \n')
     print('\033[31m13. Sair\033[m \n')
 
     linha(20)
 
-    escolha_opcao = int(input('\nDigite sua opção: '))
+    escolha_opcao = int(input('\nDigite sua Opção: '))
     #Validação das Opções
-    while escolha_opcao < 1 or escolha_opcao > 13:
-        print('\n\033[31mResposta Incorreta. Digite novamente!\033[m')
-        escolha_opcao = int(input('\nDigite sua opção: '))
+    while escolha_opcao < 1 and escolha_opcao > 13:
+        print('\n\033[31mResposta Incorreta.\033[m')
+        escolha_opcao = int(input('\nDigite sua Opção: '))
+    
         
     #Atribuição de Atitutes
     if escolha_opcao == 1:
@@ -77,15 +88,14 @@ def inserir_dados():
     print('\n\033[1;34mINSIRA os DADOS\033[m')
     
     while True:
-        numero_jogo = input('\nJogo: ')
-        while numero_jogo.isnumeric() == False:
+        jogo = input('\nJogo: ')
+        while jogo.isnumeric() == False:
             print('\n\033[30;41mDigite o número do Jogo corretamente.\033[m')
-            numero_jogo = input('\nJogo: ')
-        #numero_jogo = int(numero_jogo)
-
-        while len(lista_jogos) -1 == numero_jogo:
-            print(f'\n\033[30;41m{numero_jogo} jogo já existe.\033[m')
-            numero_jogo = input('\nJogo: ')
+            jogo = input('\nJogo: ')
+        
+        while len(lista_jogos) -1 == jogo:
+           print(f'\n\033[30;41m{jogo} jogo já existe.\033[m')
+           jogo = input('\nJogo: ')
 
         grupo = input('Grupo: ')
         while any(chr.isdigit() for chr in grupo):
@@ -96,7 +106,6 @@ def inserir_dados():
         while any(chr.isdigit() for chr in selecao_1):
             print('\n\033[30;41mDigite o nome da Seleção corretamente.\033[m')
             selecao_1 = input('\nSeleção 1: ')
-
 
         selecao_2 = input('Seleção 2: ')
         while any(chr.isdigit() for chr in selecao_2):
@@ -113,16 +122,24 @@ def inserir_dados():
             print('\n\033[30;41mDigite o númer de Espectadores corretamente.\033[m')
             espectadores = input('\nEspectadores: ')
         
-        registro_jogos = [numero_jogo, grupo, selecao_1, selecao_2, estadio, espectadores]
+        registro_jogos = [jogo, grupo, selecao_1, selecao_2, estadio, espectadores]
         lista_jogos.append(registro_jogos)
 
         print(), linha(20)
 
         print('\n1. Menu Inicial')
-        print('2. Inserir próximo Dado')
+        print('2. Continuar')
         op = int(input('\n' ))
+        while op != 1 and op != 2:
+            print('\nOpção Incorreta.')
+            print('\n1. Menu Inicial')
+            print('2. Continuar')
+            op = int(input('\n' ))
         if op == 1:
             limpa_tela(), menu()
+        if op == 's':
+            close()
+
 
 def gerador_dados_aleatorios():
     """
@@ -130,43 +147,76 @@ def gerador_dados_aleatorios():
     """
     limpa_tela()
 
-    print('\n\033[1;34mGERAÇÃO DE DADOS ALEATORIOS\033[m')
+    while True:
+        print('\n\033[1;34mGERAÇÃO DE DADOS ALEATORIOS\033[m')
 
-    #Gerando número de Jogos aleatórios.
-    numero_jogos_ale = random.randint(1, 195)
-    print('\nJogo: ', numero_jogos_ale)
-    #numero_jogos_ale = np.array([n for n in range (1, 245)])
-    #print(numero_jogos_ale)
+        #Jogos
+        jogos_ale = random.randint(1, 195)
+        print('\nJogo:', jogos_ale)
+        
+        #Grupo
+        letras = ('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
+        grupo_ale = random.choice(letras)
+        print('Grupo:', grupo_ale)
 
-    #Gerando nome do Grupo aleatórios.
-    lista_grupo = ('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
-    print('Grupo: ', random.choice(lista_grupo))
+        #Seleções
+        ficheiro_paises = open("database/lists/reading/coutries.csv","r", encoding="utf8")
+        lista_paises = []
+        
+        for linha in ficheiro_paises.readlines():
+            lista_paises.append(linha.strip())
+        ficheiro_paises.close()
+        
+        #Seleção 1
+        selecao1_ale = random.choice(lista_paises)
+        print('Seleção 1:', selecao1_ale)
 
-    #Gerando nome de Seleções aleatórios.
-    ficheiro = open("ficheiro\lista-paises.csv","r", encoding="utf8")
-    lista_paises = []
+        #Seleção 2
+        selecao2_ale = random.choice(lista_paises)
+        print('Seleção 2:', selecao2_ale)
 
-    for linha in ficheiro.readlines():
-        lista_paises.append(linha.strip())
-    ficheiro.close()
+        #Estádio
+        ficheiro_stadiums = open('database/lists/reading/stages.csv','r', encoding='utf8')
+        lista_estadios = []
+
+        for linha in ficheiro_stadiums.readlines():
+            lista_estadios.append(linha.strip())
+        ficheiro_stadiums.close()
+
+        estadios_ale = random.choice(lista_estadios)
+        print('Estádio:', estadios_ale)
+
+        #Espectadores
+        espectadores_ale = random.randint(35000, 100000)
+        print('Espectadores:', espectadores_ale)
     
-    lista_paises_ale = random.choice(lista_paises)
-    print('Seleção 1: ', lista_paises_ale)
+        registro_dados_ale = [jogos_ale, grupo_ale, selecao1_ale, selecao2_ale, estadios_ale, espectadores_ale]
+        print()
+        print(registro_dados_ale)
 
-    lista_paises_ale = random.choice(lista_paises)
-    print('Seleção 2: ', lista_paises_ale)
+        op_c = input('\nContinuar gerando Dados Aleatórios: [S/n] ')
+        while op_c != 'S' and op_c != 'n':
+            print('\nOpção Incorreta.')
+            op_c = input('\nContinuar gerar Dados Aleatórios: [S/n] ')
+        
+        if op_c == 'n':
+            #Guardar Dados Aleatórios
+            op_gd = input('\nGuardar os Dados: [S/n] ')
+            while op_gd != 'S' and op_gd != 'n':
+                print('\nOpção Incorreta.')
+                op_gd = input('\nGuardar os Dados: [S/n] ')
+            
+            if op_gd == 'S':
+                salvar_dados = open("database/lists/storage/random-game-data.csv","w+")
+                #salvar_dados.write('Jogo | Grupo | Seleção 3 | Seleção 2 | Estádio | Espectadores \n')
+
+                for item in registro_dados_ale:
+                    salvar_dados.writelines(item)
+                salvar_dados.close()
+            else:
+                limpa_tela_menu()
 
 
-    #tam = len(lista_paises)
-    #while len(lista_paises) > 0:
-    #   i = random.randint(0, tam-1)
-    #   print(lista_paises[i])
-    #   lista_paises.pop(i)
-    #   tam = len(lista_paises) #atualiza a lista 
-
-    # for posicao in random.randrange(len(lista_paises)):
-    #     if lista_paises[posicao]:
-    #         print(lista_paises)
 
 def eliminar_dados():
     """
@@ -186,7 +236,7 @@ def linha(vezes):
 
 def limpa_tela_menu():
     """
-    Função: Limpar a tela e retorna a Função: Menu.
+    Função: Limpar a tela e retorna a função Menu.
     """
     if os.name == 'nt':
         os.system('cls')
@@ -215,6 +265,9 @@ def guardar_ficheiro():
     Função: Salvar Ficheiro.
     """
 
+
+
+
 def carregar_ficheiro():
     """
     Função: Carregar Ficheiro.
@@ -229,24 +282,22 @@ def sobre():
     limpa_tela()
     print("""
     \033[34mSobre Nós!\033[m\n
-    Este programa foi desenvolvido a pedido da CBF (Comissão Brasileira de Futebol),
-    para atender as necessidades de Gestão dos Campeonatos Brasileiros de Futebol.
+    Este programa foi desenvolvido a pedido da FIFA (Federação Internacional de Futebol),
+    para atender as necessidades de Gestão dos Campeonatos Mundiais da Copa do Mundo.
     
-    \033[35mAuthor:\033[m Daniel Marques.\n""")
+    \033[35mAuthor e Desenvolvedor:\033[m Daniel Marques.\n""")
 
     linha(60) 
 
-    opcao = input('\nDeseja voltar ao Menu Inicial? S ou N: ')
+    opcao = input('\nMenu Inicial? [S/n] ')
     #Validação das Opções
-    while opcao != 'S' and opcao != 'N':
-        print('\n\033[31mResposta Incorreta. Digite novamente!\033[m')
-        opcao = input('\nDeseja voltar ao Menu Inicial? S ou N: ')
+    while opcao != 'S' and opcao != 'n':
+        print('\n\033[31mResposta Incorreta.\033[m')
+        opcao = input('\nMenu Inicial? [S/n] ')
     
     if opcao == 'S':
         limpa_tela(), menu()
-    elif opcao == 'N':
+    elif opcao == 'n':
         limpa_tela(), sair()
-        
-            
-
+                    
 menu()

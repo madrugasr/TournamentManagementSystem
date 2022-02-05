@@ -1,0 +1,20 @@
+Linha 160
+
+ #tam = len(lista_paises)
+    #while len(lista_paises) > 0:
+    #   i = random.randint(0, tam-1)
+    #   print(lista_paises[i])
+    #   lista_paises.pop(i)
+    #   tam = len(lista_paises) #atualiza a lista 
+
+    # for posicao in random.randrange(len(lista_paises)):
+    #     if lista_paises[posicao]:
+    #         print(lista_paises)
+
+
+salvar_dados = open("database/lists/storage/random-game-data.csv","w+")
+                salvar_dados.write('Jogo | Grupo | Seleção 3 | Seleção 2 | Estádio | Espectadores \n')
+
+                for item in registro_dados_ale:
+                    salvar_dados.writelines(item)
+                salvar_dados.close()

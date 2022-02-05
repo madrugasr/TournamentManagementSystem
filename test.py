@@ -1,15 +1,13 @@
+produto1 = [ "laranja", 10, 0.99]
+produto2 = [ "pera", 5, 0.75]
+produto3 = [ "kiwi", 4, 0.98]
+lista_compras = [ produto1, produto2, produto3]
+print(lista_compras)
 
+ficheiro = open("compras.txt","w+")
+ficheiro.write("produto; quantidade; preco\n")
 
-import random
+for elemento in lista_compras:
+    ficheiro.writelines(f"{elemento[0]}; {elemento[1]}; {elemento[2]}\n")
+ficheiro.close()
 
-ficheiro = open("ficheiro\lista-paises.csv","r", encoding="utf8")
-lista_paises = []
-
-for linha in ficheiro.readlines():
-    lista_paises.append(linha)
-    ficheiro.close()
-    
-random.shuffle(lista_paises)
-print(*lista_paises)
-print()
-print(random.choice(lista_paises))
