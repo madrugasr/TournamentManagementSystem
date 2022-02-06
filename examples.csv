@@ -1,20 +1,37 @@
+
+Linha 1
+#Conexão com Banco de Dados WorldCup
+worldcup_db = mysql.connector.connect(
+    host='localhost',
+    user='root',
+    password = 'aaZe!9ae.hVsMGD'
+)
+
+
 Linha 160
+tam = len(lista_paises)
+while len(lista_paises) > 0:
+    i = random.randint(0, tam-1)
+    print(lista_paises[i])
+    lista_paises.pop(i)
+    tam = len(lista_paises) #atualiza a lista 
 
- #tam = len(lista_paises)
-    #while len(lista_paises) > 0:
-    #   i = random.randint(0, tam-1)
-    #   print(lista_paises[i])
-    #   lista_paises.pop(i)
-    #   tam = len(lista_paises) #atualiza a lista 
+for posicao in random.randrange(len(lista_paises)):
+     if lista_paises[posicao]:
+        print(lista_paises)
 
-    # for posicao in random.randrange(len(lista_paises)):
-    #     if lista_paises[posicao]:
-    #         print(lista_paises)
-
-
+Linha 213
 salvar_dados = open("database/lists/storage/random-game-data.csv","w+")
                 salvar_dados.write('Jogo | Grupo | Seleção 3 | Seleção 2 | Estádio | Espectadores \n')
 
                 for item in registro_dados_ale:
                     salvar_dados.writelines(item)
                 salvar_dados.close()
+
+Linha 175
+ficheiro_stadiums = open('database/lists/reading/stages.csv','r', encoding='utf8')
+        lista_estadios = []
+
+        for linha in ficheiro_stadiums.readlines():
+            lista_estadios.append(linha.strip())
+        ficheiro_stadiums.close()
