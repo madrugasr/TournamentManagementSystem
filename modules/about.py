@@ -17,13 +17,16 @@ def sobre():
 
     print('\n1. Menu Inicial')
     print('\n2. Sair')
-    op = input()
-    #Validação das Opções
-    while not (op.isnumeric()) and op != '1' and op != '2':
+
+    while True:
+        op = input('\nOpção: ').strip()
+
+        if op == '1' or op == '2':
+            break
+
         print('\n\033[31mResposta Incorreta.\033[m')
-        print('\n1. Menu Inicial')
-        print('\n2. Sair\n')
-        op = input('\n' )
-    
-    if op == '1': limpa_tela(), menu()
-    if op == '2': limpa_tela(), sair()
+
+    limpa_tela()
+
+    if op == '2':
+        sair()
