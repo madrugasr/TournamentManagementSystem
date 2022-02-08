@@ -3,7 +3,7 @@
 import csv
 from random import random
 
-from modules.exceptions import limpa_tela, limpa_tela_menu
+from modules.tools import limpa_tela
 
 
 def gerador_dados_aleatorios():
@@ -74,4 +74,4 @@ def gerador_dados_aleatorios():
         s.writerows(registro_jogos_ale)
     print('Dados salvos com sucesso!')
     
-    limpa_tela_menu()
+    limpa_tela()

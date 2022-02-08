@@ -1,6 +1,6 @@
 from os import close
 from main import menu
-from modules.exceptions import limpa_tela, linha
+from modules.tools import limpa_tela, linha
 
 
 def inserir_dados():

@@ -7,7 +7,7 @@ para a construção do campeonato.
 # import mysql.connector
 from modules.about import sobre
 # from modules.delete_data import eliminar_dados
-from modules.exceptions import limpa_tela, linha, sair
+from modules.tools import limpa_tela, linha, sair
 # from modules.insert_date import inserir_dados
 # from modules.random_data_generator import gerador_dados_aleatorios
 
