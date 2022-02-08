@@ -9,7 +9,7 @@ from modules.about import sobre
 # from modules.delete_data import eliminar_dados
 from modules.tools import limpa_tela, linha, sair
 from modules.insert_date import inserir_dados
-# from modules.random_data_generator import gerador_dados_aleatorios
+from modules.random_data_generator import gerador_dados_aleatorios
 
 
 def menu():
@@ -47,9 +47,9 @@ def menu():
     # Atribuição de Atitutes
     if escolha_opcao == 1:
         inserir_dados()
-    # elif escolha_opcao == 2:
-    #     gerador_dados_aleatorios()
-    #
+    elif escolha_opcao == 2:
+        gerador_dados_aleatorios()
+
     # elif escolha_opcao == 4:
     #     eliminar_dados()
 
