@@ -1,9 +1,10 @@
 """
 A organização da CBF precisa de um programa de gestão
 para a construção do campeonato.
+
 """
-#Importando Rescursos.
-#import mysql.connector
+# Importando Rescursos.
+# import mysql.connector
 from modules.about import sobre
 from modules.delete_data import eliminar_dados
 from modules.exceptions import limpa_tela, linha, sair
@@ -33,25 +34,31 @@ def menu():
     print('11. Carregar dados do Ficheiro')
     print('\033[1;36;40m12. Sobre Nós!\033[m \n')
     print('\033[31m13. Sair\033[m \n')
-    
 
     linha(20)
 
     escolha_opcao = int(input('\nDigite sua Opção: '))
-    #Validação das Opções
-    while escolha_opcao < 1 and escolha_opcao > 13:
+
+    # Validação das Opções
+    while escolha_opcao < 1 or escolha_opcao > 13:
         print('\n\033[31mResposta Incorreta.\033[m')
         escolha_opcao = int(input('\nDigite sua Opção: '))
         
-    #Atribuição de Atitutes
-    if escolha_opcao == 1: inserir_dados()
+    # Atribuição de Atitutes
+    if escolha_opcao == 1:
+        inserir_dados()
 
-    elif escolha_opcao == 2: gerador_dados_aleatorios()
+    elif escolha_opcao == 2:
+        gerador_dados_aleatorios()
     
-    elif escolha_opcao == 4: eliminar_dados()
+    elif escolha_opcao == 4:
+        eliminar_dados()
 
-    elif escolha_opcao == 12: sobre()
+    elif escolha_opcao == 12:
+        sobre()
     
-    elif escolha_opcao == 13: sair()
+    elif escolha_opcao == 13:
+        sair()
+
 
 menu()
