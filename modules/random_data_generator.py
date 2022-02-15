@@ -1,6 +1,5 @@
-import csv
+import csv, time
 from random import randint, choice
-
 from modules.tools import limpa_tela
 
 
@@ -10,24 +9,27 @@ def gerador_dados_aleatorios():
     """
 
     limpa_tela()
-
     # Listas
     lista_paises = []
     lista_estadios = []
     registro_jogos_ale = []
-    letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    letras = ('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
 
-    print('\n\033[1;34mGERAÇÃO DE DADOS ALEATORIOS\033[m')
+    print('\n\033[4;34mGERAÇÃO DE DADOS ALEATÓRIOS\033[m')
 
-    quant_jogos_aleatorios = input('\nDeseja gerar quantos Jogos aleatórios? ')
-    while not quant_jogos_aleatorios.isnumeric():
-        print('\n\033[31mOpção Incorreta.\033[m')
-        quant_jogos_aleatorios = input('\nDeseja gerar quantos Jogos aleatórios? ')
+    quant_jogos_aleatorios = input('\nJogos Aleatórios: ')
+    while not (quant_jogos_aleatorios.isnumeric()) or int(quant_jogos_aleatorios) > 60:
+        if not quant_jogos_aleatorios.isnumeric():
+            print('\n\033[31mOpção Incorreta.\033[m')
+        elif int(quant_jogos_aleatorios) > 60:
+            print('\n\033[31mNão é possível gerar mais de 60 jogos!\033[m')
+        quant_jogos_aleatorios = input('\nJogos Aleatórios: ')
 
     for q in range(int(quant_jogos_aleatorios)):
+        print(f'\n\033[1;32mRegistro: {q+1}\033[m')
         # Jogos
-        jogos_ale = randint(1, 195)
-        print('\nJogo:', jogos_ale)
+        jogos_ale = randint(1, 60)
+        print('Jogo:', jogos_ale)
 
         # Grupo
         grupo_ale = choice(letras)
@@ -38,11 +40,9 @@ def gerador_dados_aleatorios():
             for linha in csv.reader(f_paises):
                 lista_paises.append(linha)
 
-        # Seleção 1
         selecao1_ale = choice(lista_paises)
         print('Seleção 1:', *selecao1_ale)
 
-        # Seleção 2
         selecao2_ale = choice(lista_paises)
         print('Seleção 2:', *selecao2_ale)
 
@@ -54,23 +54,30 @@ def gerador_dados_aleatorios():
         print('Estádio:', *estadios_ale)
 
         # Espectadores
-        espectadores_ale = randint(20000, 100000)
+        espectadores_ale = randint(1, 97000)
         print('Espectadores:', espectadores_ale)
 
         registro_jogos_ale.append([
-            jogos_ale, grupo_ale, selecao1_ale, selecao2_ale, estadios_ale, espectadores_ale
+            jogos_ale, grupo_ale, *selecao1_ale, *
+            selecao2_ale, *estadios_ale, espectadores_ale
         ])
+        time.sleep(0.8)
 
-    op_gd = input('\nGuardar os Dados: [S/n] ')
-    while op_gd != 'S' and op_gd != 'n':
+    while True:
+        op = input('\nGuardar Dados? [S/n]: ').strip()
+        if op == 'n':
+            break
+        elif op == 'S':
+            # Guardar Dados Aleatórios
+            with open("database/lists/storage/random_game_data.csv", "w+",
+                      newline='', encoding='utf8') as salvar:
+                s = csv.writer(salvar)
+                s.writerow(('Jogo', ' Grupo', ' Seleção 1',
+                            ' Seleção 2', ' Estádio', ' Espectadores'))
+                registro_jogos_ale.sort()
+                s.writerows(registro_jogos_ale)
+                time.sleep(2)
+            print('\n\033[1;33mDados SALVOS!\033[m')
+            time.sleep(10)
+            break
         print('\n\033[31mOpção Incorreta.\033[m')
-        op_gd = input('\nGuardar os Dados: [S/n] ')
-
-        # Guardar Dados Aleatórios
-    with open("database/lists/storage/random-game-data.csv", "a+", newline='', encoding='utf8') as salvar_dados:
-        s = csv.writer(salvar_dados)
-        s.writerow(('Jogo', ' Grupo', ' Seleção 1', ' Seleção 2', ' Estádio', ' Espectadores'))
-        s.writerows(registro_jogos_ale)
-    print('Dados salvos com sucesso!')
-
-    limpa_tela()

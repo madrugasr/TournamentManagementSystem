@@ -21,19 +21,7 @@ def limpa_tela():
 
 def sair():
     """
-    Função: Sair
+    Função: Sair do Sistema.
     """
     limpa_tela()
     sys.exit()
-
-
-def guardar_ficheiro():
-    """
-    Função: Salvar Ficheiro.
-    """
-
-
-def carregar_ficheiro():
-    """
-    Função: Carregar Ficheiro.
-    """

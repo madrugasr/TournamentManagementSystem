@@ -35,3 +35,18 @@ ficheiro_stadiums = open('database/lists/reading/stages.csv','r', encoding='utf8
         for linha in ficheiro_stadiums.readlines():
             lista_estadios.append(linha.strip())
         ficheiro_stadiums.close()
+
+with open("database/lists/reading/coutries.csv", "r", encoding="utf8") as f_paises:
+            lista_paises = list(csv.reader(f_paises))
+            print(lista_paises)
+
+ficheiro_paises = open('database/lists/reading/coutries.csv','r',newline='',encoding='utf8')
+lista_paises = []
+for linha in ficheiro_paises.readlines():
+    lista_paises.append(linha.strip())
+ficheiro_paises.close()
+
+ for linha in range(len(total_espectadores)):
+            soma = soma + total_espectadores[linha]
+        print(soma)
+    
